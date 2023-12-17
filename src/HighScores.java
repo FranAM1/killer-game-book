@@ -7,15 +7,25 @@ public class HighScores {
         scores = new ArrayList<ScoreInfo>();
     }
 
-    public void addScore(String name, int score) {
-        scores.add(new ScoreInfo(name, score));
+    public void addScore(String score) {
+        int indexSeparator = score.indexOf("&");
+
+        scores.add(new ScoreInfo(
+                score.substring(0, indexSeparator).trim(),
+                Integer.parseInt(score.substring(indexSeparator + 1).trim())
+        ));
     }
 
     public String toString() {
-        String result = "";
-        for (ScoreInfo score : scores) {
-            result += score.toString() + "\n";
+        String s = "HIGH$$";
+        for (ScoreInfo si : scores) {
+            s += si.getName() + "&" + si.getScore() + "&";
         }
-        return result;
+        return s;
+    }
+
+    public void saveScores(){
+        // backup scores
+        System.out.println("Saving scores");
     }
 }

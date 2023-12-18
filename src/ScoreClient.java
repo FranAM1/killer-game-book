@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -20,8 +21,8 @@ public class ScoreClient extends JFrame {
     private JTextField jtfScore;
     private JTextArea jtaMesgs;
 
-    public ScoreClient( )
-    { super( "High Score Client" );
+    public ScoreClient() {
+        super( "High Score Client" );
         initializeGUI( );
         makeContact( );
         addWindowListener( new WindowAdapter( ) {
@@ -32,8 +33,54 @@ public class ScoreClient extends JFrame {
         setVisible(true);
     }
 
-    private void initializeGUI( ) {
+    public static void main(String[] args) {
+        new ScoreClient();
+    }
 
+    private void initializeGUI( ) {
+        this.setLayout(new GridBagLayout());
+
+        GridBagConstraints c = new GridBagConstraints();
+
+        c.fill = GridBagConstraints.BOTH;
+        c.gridx = 0;
+        c.gridy = 0;
+        c.gridwidth = 4;
+        c.gridheight = 1;
+        c.weighty = 1;
+        c.weightx = 1;
+        c.insets = new Insets(5,5,5,5);
+
+        jtaMesgs = new JTextArea();
+        jtaMesgs.setEditable(false);
+        JScrollPane jsp = new JScrollPane(jtaMesgs);
+        this.add(jsp, c);
+
+
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridy = 1;
+        c.gridwidth = 1;
+        c.weighty = 0;
+
+        this.add(new JLabel("Name:"), c);
+
+        c.gridx = 1;
+        jtfName = new JTextField(10);
+        this.add(jtfName, c);
+
+        c.gridx = 2;
+        this.add(new JLabel("Score:"), c);
+
+        c.gridx = 3;
+        jtfScore = new JTextField(10);
+        this.add(jtfScore, c);
+
+
+        c.gridx = 0;
+        c.gridy = 2;
+        c.gridwidth = 4;
+        jbGetScores = new JButton("Get Scores");
+        this.add(jbGetScores, c);
     }
 
 
@@ -51,7 +98,7 @@ public class ScoreClient extends JFrame {
         if (e.getSource() == jbGetScores)
             sendGet();
         else if (e.getSource( ) == jtfScore){
-            sendScore();
+            // sendScore();
         }
     }
 
@@ -61,8 +108,9 @@ public class ScoreClient extends JFrame {
             out.println("get");
             String line = in.readLine( );
             System.out.println(line);
-            if ((line.length( ) >= 7) && (line.substring(0,6).equals("HIGH$$")))
-                showHigh(line.substring(6).trim());
+            if ((line.length( ) >= 7) && (line.substring(0,6).equals("HIGH$$"))){
+                // showHigh(line.substring(6).trim());
+            }
             else {
                 jtaMesgs.append( line + "\n");
             }
